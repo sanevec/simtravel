@@ -1,4 +1,4 @@
-# simtravel
+# simtravel 2
 Urban traffic simulator based on a hybrid cellular automata and agent-based model.
 
 Using this tool we can model synthetic and symmetric cities where electric vehicles (EV) and non-electric vehicles (ICEV) are placed. This simulator enables the study of the arrangement of EV charging stations testing three different stations layout:
