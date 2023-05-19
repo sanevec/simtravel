@@ -9,15 +9,48 @@ Using this tool we can model synthetic and symmetric cities where electric vehic
 
 The binary files with the application ready to execute can be downloaded from: [release 1](https://github.com/amarogs/simtravel/releases/tag/1.0)
 
-
+The installation has been carried out on Ubuntu 22.04.2 LTS.
 
 ### Installation requisites
 Python 3 (tested on version 3.8) as well as the package-management tool pip. Since some parts of the code have to be compiled, the necessary libraries must also be installed.
 
+Install Python 3.8 on Ubuntu
+By default, Python 3.8 is not included in Ubuntu. To install it, we need to add the deadsnakes repository, which contains multiple Python versions.
+
+Step 1: Update System
+First, we'll need to update the system:
+
+bash
+Copy code
+sudo apt update
+sudo apt upgrade
+Step 2: Add the Deadsnakes Repository
+After that, let's add the deadsnakes repository:
+
+bash
+Copy code
+sudo add-apt-repository ppa:deadsnakes/ppa
+Confirm the addition of the repository when prompted. Once that's done, update our packages again:
+
+bash
+Copy code
+sudo apt update
+Step 3: Install Python 3.8
+Finally, we'll install Python 3.8:
+
+bash
+Copy code
+sudo apt install python3.8
+Step 4: Verify the Installation
+Once the installation is complete, you can confirm that Python 3.8 is properly installed by checking the version:
+
+bash
+Copy code
+python3.8 --version
+This should return the version of Python 3.8 that you just installed.
+
 ```
-apt-get install python3
-apt-get install python3-pip
-apt-get install python3-dev
+apt-get install python3.8-dev
 ```
 
 ### Installation
@@ -25,8 +58,8 @@ First, create a new Python virtual environment
  
 
 ```
-pip3 install virtualenv
-python3 -m virtualenv simtravel-env
+sudo pip3 install virtualenv
+python3.8 -m virtualenv simtravel-env
 source simtravel-env/bin/activate
 ```
 Then, install all needed module by using the [requirements.txt](./requirements.txt) and compile the code as a Python extension module.
