@@ -20,34 +20,40 @@ By default, Python 3.8 is not included in Ubuntu. To install it, we need to add 
 Step 1: Update System
 First, we'll need to update the system:
 
-bash
-Copy code
+```
 sudo apt update
 sudo apt upgrade
+```
+
 Step 2: Add the Deadsnakes Repository
 After that, let's add the deadsnakes repository:
 
-bash
-Copy code
+```
 sudo add-apt-repository ppa:deadsnakes/ppa
+```
+
 Confirm the addition of the repository when prompted. Once that's done, update our packages again:
 
-bash
-Copy code
+```
 sudo apt update
+```
+
 Step 3: Install Python 3.8
+
 Finally, we'll install Python 3.8:
 
-bash
-Copy code
+```
 sudo apt install python3.8
+```
+
 Step 4: Verify the Installation
 Once the installation is complete, you can confirm that Python 3.8 is properly installed by checking the version:
 
-bash
-Copy code
+```
 python3.8 --version
-This should return the version of Python 3.8 that you just installed.
+```
+
+We need the python development package too:
 
 ```
 apt-get install python3.8-dev
