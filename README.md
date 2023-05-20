@@ -32,11 +32,6 @@ After that, let's add the deadsnakes repository:
 sudo add-apt-repository ppa:deadsnakes/ppa
 ```
 
-Confirm the addition of the repository when prompted. Once that's done, update our packages again:
-
-```
-sudo apt update
-```
 
 Step 3: Install Python 3.8
 
@@ -60,14 +55,22 @@ apt-get install python3.8-dev
 ```
 
 ### Installation
-First, create a new Python virtual environment 
- 
+First, create a new Python virtual environment and activate it.
+
 
 ```
-sudo pip3 install virtualenv
+sudo python3.8 -m pip install virtualenv
 python3.8 -m virtualenv simtravel-env
 source simtravel-env/bin/activate
 ```
+
+Download the git repository if you haven't done so.
+
+```
+git clone https://github.com/sanevec/simtravel.git
+cd simtravel
+```
+
 Then, install all needed module by using the [requirements.txt](./requirements.txt) and compile the code as a Python extension module.
 
 ```
