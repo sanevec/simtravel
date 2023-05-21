@@ -14,8 +14,8 @@ The installation has been carried out on Ubuntu 22.04.2 LTS.
 ### Installation requisites
 Python 3 (tested on version 3.8) as well as the package-management tool pip. Since some parts of the code have to be compiled, the necessary libraries must also be installed.
 
-Install Python 3.8 on Ubuntu
-By default, Python 3.8 is not included in Ubuntu. To install it, we need to add the deadsnakes repository, which contains multiple Python versions.
+Install Python 3.9 on Ubuntu
+By default, Python 3.9 is not included in Ubuntu. To install it, we need to add the deadsnakes repository, which contains multiple Python versions.
 
 Step 1: Update System
 First, we'll need to update the system:
