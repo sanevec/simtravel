@@ -1,0 +1,17 @@
+﻿cycler
+Cython
+h5py
+kiwisolver
+matplotlib
+numpy
+Pillow
+PyOpenGL
+PyOpenGL-accelerate
+pyparsing
+PyQt5
+PyQt5-sip
+pyqtgraph @ git+https://github.com/pyqtgraph/pyqtgraph@a76d9daec25724c8bf22c61a2ebb3c9b6bff6a4d
+python-dateutil
+PyYAML
+scipy
+six

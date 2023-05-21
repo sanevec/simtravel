@@ -33,25 +33,26 @@ sudo add-apt-repository ppa:deadsnakes/ppa
 ```
 
 
-Step 3: Install Python 3.8
+Step 3: Install Python 3.9
 
-Finally, we'll install Python 3.8:
+Finally, we'll install Python 3.9:
 
 ```
-sudo apt install python3.8
+sudo apt install python3.9
 ```
 
 Step 4: Verify the Installation
 Once the installation is complete, you can confirm that Python 3.8 is properly installed by checking the version:
 
 ```
-python3.8 --version
+python3.9 --version
 ```
 
 We need the python development package too:
 
 ```
-apt-get install python3.8-dev
+sudo apt-get install python3.9-dev
+sudo apt-get install python3.9-distutils
 ```
 
 ### Installation
@@ -59,23 +60,23 @@ First, create a new Python virtual environment and activate it.
 
 
 ```
-sudo python3.8 -m pip install virtualenv
-python3.8 -m virtualenv simtravel-env
-source simtravel-env/bin/activate
+sudo python3.9 -m pip install virtualenv
+python3.9 -m virtualenv simtravel2-env
+source simtravel2-env/bin/activate
 ```
 
 Download the git repository if you haven't done so.
 
 ```
-git clone https://github.com/sanevec/simtravel.git
-cd simtravel
+git clone https://github.com/sanevec/simtravel2.git
+cd simtravel2
 ```
 
 Then, install all needed module by using the [requirements.txt](./requirements.txt) and compile the code as a Python extension module.
 
 ```
-pip3 install -r requirements.txt
-python3 setup.py build_ext --inplace
+pip install -r requirements2.txt
+python setup.py build_ext --inplace
 ```
 
 ### Execution
@@ -86,6 +87,17 @@ The desktop app can be executed using the file [run_app.py](./scripts/run_app.py
 
 ```
 python3 -m scripts.run_app
+```
+
+If you are using an IDE like Visual Studio Code, once the environment is activated, run it as 
+
+```
+code . 
+```
+
+and create the execution in launch.json as 
+```
+"module": "scripts.run_app".
 ```
 
 The second way to execute the simulations is through the parallel script. 
