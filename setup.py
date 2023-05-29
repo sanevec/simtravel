@@ -21,8 +21,6 @@ for folder in cythonize_folders:
         ext_modules.append(Extension(module_name, [source_file_path]))
 
 setup(
-    name="simtravel",
-    version="1.0",
-    author="Amaro Garcia-Suarez",
-    author_email="amagarsua@alum.us.es",
+    name="simtravel2",
+    version="2.0",
     ext_modules=cythonize(ext_modules))

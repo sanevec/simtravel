@@ -10,7 +10,7 @@ class SimulatorEngine:
 
     def __init__(self, simulation):
         """
-        :param simulation: A simulation object
+        :param simulation: A simulation object 
          """
         super().__init__()
 
@@ -54,11 +54,28 @@ class SimulatorEngine:
         self.seeking_history = {v.id:[] for v in self.simulation.ev_vehicles}
         self.queueing_history = {v.id: [] for v in self.simulation.ev_vehicles}
 
-    def choose_station(self, pos):
-        return random.choice(self.simulation.stations_map[pos])
+    def choose_station(self, vehicle):
+        # como nuevo parámetro
+        # bloquear la estación de destino y meter tiempo de carga
+
+        if self.simulation.smart_route_distance:
+            # distant version
+            # localize the nearest station
+            d = np.inf
+            target = None
+            for station in self.simulation.stations:
+                d2=self.astar.latticeDistance(vehicle.cell,station.cell)+self.astar.latticeDistance(station.cell,vehicle.destination)
+                if d2<d:
+                    d=d2
+                    target=station
+            return target
+        # time version
+        # old version
+        return random.choice(self.simulation.stations_map[vehicle.cell.pos])
 
     def towards_destination(self, vehicle):
         """Function called when a vehicle has State.TOWARDS_DEST."""
+        #print("Vehicle {} is at {} and is going to {}".format(vehicle.id, vehicle.cell.pos, vehicle.destination.pos))
         electric = False
         if vehicle in self.simulation.ev_vehicles:
             electric = True
@@ -76,7 +93,7 @@ class SimulatorEngine:
             if vehicle.battery <= self.simulation.BATTERY_LOWER:
                 # The vehicle is running out of battery and needs to recharge
                 vehicle.state = States.TOWARDS_ST  # Set the state to "towards station"
-                vehicle.station = self.choose_station(vehicle.cell.pos)  # Choose the station
+                vehicle.station = self.choose_station(vehicle)  # Choose the station
                 vehicle.path = self.astar.new_path(vehicle.cell, vehicle.station.cell)
                 vehicle.seeking = 0  # Start the seeking counter
 

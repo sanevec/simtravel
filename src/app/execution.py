@@ -100,6 +100,10 @@ class ExecutionVisualization(QWidget):
 
         simulation.stations_placement(min_plugs_per_station=self.params_text['MIN_PLUGS_PER_STATION'],
                                     min_num_stations=self.params_text['MIN_D_STATIONS'])
+        
+        #drd
+        simulation.smart_route_distance = self.params_text['SR_DISTANCE']
+
         # Create the simulator
         simulation.create_simulator()
 

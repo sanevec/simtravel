@@ -7,6 +7,9 @@ from heapq import heappop, heappush
 cdef dict CITY
 cdef int LATTICE_SIZE
 
+import numpy as np
+
+
 
 
 cpdef void configure_lattice_size(int lattice_size,dict city_map):
@@ -97,6 +100,11 @@ cdef class AStar():
         global CITY
         
         cdef set closed_set = set() #Set of positions already visited
+
+        # define array bidimensinal of boolean and max_length
+        #cdef visited = np.zeros([self.max_length, self.max_length], dtype=bool)
+
+
         cdef PriorityMinHeap open_set = PriorityMinHeap() #Min heap of posible positions available for expansion
 
         #Dictionary containing (position:distance), which is the distance to
@@ -123,6 +131,7 @@ cdef class AStar():
             else:
                 #Otherwise we need to explore the current node
                 closed_set.add(current)
+                #visited[current.pos[0], current.pos[1]] = True
 
             road_type = current.cell_type
             successors = current.successors
@@ -131,6 +140,7 @@ cdef class AStar():
             for successor in successors:
                 
                 if successor not in closed_set:
+                #if not visited[successor.pos[0], successor.pos[1]]:
                     #If the neighbour hasn't been visited
                     #Compute the possible g_score
                     if successor not in current.prio_successors:
@@ -161,6 +171,9 @@ cdef class AStar():
             current_path = self.new_path(current_cell, target)
         return current_path
 
+    cpdef int latticeDistance(self,  start,goal):
+        return c_lattice_distance(start.pos[0], start.pos[1], goal.pos[0], goal.pos[1])
+    
 
 
 

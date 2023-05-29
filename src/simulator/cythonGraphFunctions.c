@@ -972,7 +972,7 @@ static const char *__pyx_f[] = {
 struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap;
 struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar;
 
-/* "src/simulator/cythonGraphFunctions.pyx":33
+/* "src/simulator/cythonGraphFunctions.pyx":36
  * 
  * 
  * cdef class PriorityMinHeap(object):             # <<<<<<<<<<<<<<
@@ -989,7 +989,7 @@ struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap {
 };
 
 
-/* "src/simulator/cythonGraphFunctions.pyx":91
+/* "src/simulator/cythonGraphFunctions.pyx":94
  * 
  * 
  * cdef class AStar():             # <<<<<<<<<<<<<<
@@ -1004,7 +1004,7 @@ struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar {
 
 
 
-/* "src/simulator/cythonGraphFunctions.pyx":33
+/* "src/simulator/cythonGraphFunctions.pyx":36
  * 
  * 
  * cdef class PriorityMinHeap(object):             # <<<<<<<<<<<<<<
@@ -1021,7 +1021,7 @@ struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap {
 static struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *__pyx_vtabptr_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap;
 
 
-/* "src/simulator/cythonGraphFunctions.pyx":91
+/* "src/simulator/cythonGraphFunctions.pyx":94
  * 
  * 
  * cdef class AStar():             # <<<<<<<<<<<<<<
@@ -1032,6 +1032,7 @@ static struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMi
 struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_AStar {
   PyObject *(*new_path)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *, PyObject *, PyObject *, int __pyx_skip_dispatch);
   PyObject *(*recompute_path)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch);
+  int (*latticeDistance)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *, PyObject *, PyObject *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_vtabptr_3src_9simulator_20cythonGraphFunctions_AStar;
 
@@ -1098,6 +1099,16 @@ static struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_AStar *__p
     } while (0)
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
+
+/* PyObjectGetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
+#else
+#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
+#endif
+
+/* GetBuiltinName.proto */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
 /* RaiseArgTupleInvalid.proto */
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
@@ -1169,16 +1180,6 @@ static CYTHON_INLINE int __Pyx_PyDict_ContainsTF(PyObject* item, PyObject* dict,
     int result = PyDict_Contains(dict, item);
     return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
 }
-
-/* PyObjectGetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
-#else
-#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
-#endif
-
-/* GetBuiltinName.proto */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
@@ -1392,12 +1393,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
-/* pyfrozenset_new.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyFrozenSet_New(PyObject* it);
-
-/* PySetContains.proto */
-static CYTHON_INLINE int __Pyx_PySet_ContainsTF(PyObject* key, PyObject* set, int eq);
-
 /* PySequenceContains.proto */
 static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
     int result = PySequence_Contains(seq, item);
@@ -1533,6 +1528,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
 static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap_is_empty(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *__pyx_v_self); /* proto*/
 static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(CYTHON_UNUSED struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_start, PyObject *__pyx_v_goal, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute_path(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_current_path, PyObject *__pyx_v_current_cell, PyObject *__pyx_v_target, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_latticeDistance(CYTHON_UNUSED struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_start, PyObject *__pyx_v_goal, int __pyx_skip_dispatch); /* proto*/
 
 /* Module declarations from 'libc.math' */
 
@@ -1552,6 +1548,8 @@ extern int __pyx_module_is_main_src__simulator__cythonGraphFunctions;
 int __pyx_module_is_main_src__simulator__cythonGraphFunctions = 0;
 
 /* Implementation of 'src.simulator.cythonGraphFunctions' */
+static PyObject *__pyx_builtin_range;
+static const char __pyx_k_np[] = "np";
 static const char __pyx_k_x1[] = "x1";
 static const char __pyx_k_x2[] = "x2";
 static const char __pyx_k_y1[] = "y1";
@@ -1566,6 +1564,8 @@ static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_AStar[] = "AStar";
 static const char __pyx_k_heapq[] = "heapq";
+static const char __pyx_k_numpy[] = "numpy";
+static const char __pyx_k_range[] = "range";
 static const char __pyx_k_start[] = "start";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_pickle[] = "pickle";
@@ -1595,6 +1595,7 @@ static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_recompute_path[] = "recompute_path";
 static const char __pyx_k_PriorityMinHeap[] = "PriorityMinHeap";
+static const char __pyx_k_latticeDistance[] = "latticeDistance";
 static const char __pyx_k_prio_successors[] = "prio_successors";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
@@ -1621,12 +1622,15 @@ static PyObject *__pyx_n_s_heappop;
 static PyObject *__pyx_n_s_heappush;
 static PyObject *__pyx_n_s_heapq;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_latticeDistance;
 static PyObject *__pyx_n_s_lattice_size;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_max_length;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_n_s_new_path;
+static PyObject *__pyx_n_s_np;
+static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_pickle;
 static PyObject *__pyx_n_s_pop;
 static PyObject *__pyx_n_s_pos;
@@ -1639,6 +1643,7 @@ static PyObject *__pyx_n_s_pyx_type;
 static PyObject *__pyx_n_s_pyx_unpickle_AStar;
 static PyObject *__pyx_n_s_pyx_unpickle_PriorityMinHeap;
 static PyObject *__pyx_n_s_pyx_vtable;
+static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_recompute_path;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
@@ -1664,8 +1669,9 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHe
 static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar___init__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_max_length); /* proto */
 static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_2new_path(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_start, PyObject *__pyx_v_goal); /* proto */
 static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_4recompute_path(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_current_path, PyObject *__pyx_v_current_cell, PyObject *__pyx_v_target); /* proto */
-static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_6__reduce_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_8__setstate_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_6latticeDistance(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_start, PyObject *__pyx_v_goal); /* proto */
+static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_8__reduce_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_10__setstate_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_4__pyx_unpickle_PriorityMinHeap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_6__pyx_unpickle_AStar(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1689,7 +1695,7 @@ static PyObject *__pyx_codeobj__5;
 static PyObject *__pyx_codeobj__7;
 /* Late includes */
 
-/* "src/simulator/cythonGraphFunctions.pyx":12
+/* "src/simulator/cythonGraphFunctions.pyx":15
  * 
  * 
  * cpdef void configure_lattice_size(int lattice_size,dict city_map):             # <<<<<<<<<<<<<<
@@ -1702,7 +1708,7 @@ static void __pyx_f_3src_9simulator_20cythonGraphFunctions_configure_lattice_siz
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("configure_lattice_size", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":14
+  /* "src/simulator/cythonGraphFunctions.pyx":17
  * cpdef void configure_lattice_size(int lattice_size,dict city_map):
  *     global CITY, LATTICE_SIZE
  *     CITY = city_map             # <<<<<<<<<<<<<<
@@ -1714,7 +1720,7 @@ static void __pyx_f_3src_9simulator_20cythonGraphFunctions_configure_lattice_siz
   __Pyx_DECREF_SET(__pyx_v_3src_9simulator_20cythonGraphFunctions_CITY, __pyx_v_city_map);
   __Pyx_GIVEREF(__pyx_v_city_map);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":15
+  /* "src/simulator/cythonGraphFunctions.pyx":18
  *     global CITY, LATTICE_SIZE
  *     CITY = city_map
  *     LATTICE_SIZE = lattice_size             # <<<<<<<<<<<<<<
@@ -1723,7 +1729,7 @@ static void __pyx_f_3src_9simulator_20cythonGraphFunctions_configure_lattice_siz
  */
   __pyx_v_3src_9simulator_20cythonGraphFunctions_LATTICE_SIZE = __pyx_v_lattice_size;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":12
+  /* "src/simulator/cythonGraphFunctions.pyx":15
  * 
  * 
  * cpdef void configure_lattice_size(int lattice_size,dict city_map):             # <<<<<<<<<<<<<<
@@ -1769,11 +1775,11 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_1configure_latt
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_city_map)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("configure_lattice_size", 1, 2, 2, 1); __PYX_ERR(0, 12, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("configure_lattice_size", 1, 2, 2, 1); __PYX_ERR(0, 15, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "configure_lattice_size") < 0)) __PYX_ERR(0, 12, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "configure_lattice_size") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1781,18 +1787,18 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_1configure_latt
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_lattice_size = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_lattice_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L3_error)
+    __pyx_v_lattice_size = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_lattice_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
     __pyx_v_city_map = ((PyObject*)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("configure_lattice_size", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 12, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("configure_lattice_size", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.configure_lattice_size", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_city_map), (&PyDict_Type), 1, "city_map", 1))) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_city_map), (&PyDict_Type), 1, "city_map", 1))) __PYX_ERR(0, 15, __pyx_L1_error)
   __pyx_r = __pyx_pf_3src_9simulator_20cythonGraphFunctions_configure_lattice_size(__pyx_self, __pyx_v_lattice_size, __pyx_v_city_map);
 
   /* function exit code */
@@ -1813,7 +1819,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_configure_latti
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("configure_lattice_size", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_3src_9simulator_20cythonGraphFunctions_configure_lattice_size(__pyx_v_lattice_size, __pyx_v_city_map, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_3src_9simulator_20cythonGraphFunctions_configure_lattice_size(__pyx_v_lattice_size, __pyx_v_city_map, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1830,7 +1836,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_configure_latti
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":18
+/* "src/simulator/cythonGraphFunctions.pyx":21
  * 
  * 
  * cpdef int lattice_distance(int x1, int y1, int x2, int y2):             # <<<<<<<<<<<<<<
@@ -1844,7 +1850,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_lattice_distance(int _
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lattice_distance", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":19
+  /* "src/simulator/cythonGraphFunctions.pyx":22
  * 
  * cpdef int lattice_distance(int x1, int y1, int x2, int y2):
  *     return c_lattice_distance(x1, y1, x2, y2)             # <<<<<<<<<<<<<<
@@ -1854,7 +1860,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_lattice_distance(int _
   __pyx_r = __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(__pyx_v_x1, __pyx_v_y1, __pyx_v_x2, __pyx_v_y2);
   goto __pyx_L0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":18
+  /* "src/simulator/cythonGraphFunctions.pyx":21
  * 
  * 
  * cpdef int lattice_distance(int x1, int y1, int x2, int y2):             # <<<<<<<<<<<<<<
@@ -1908,23 +1914,23 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_3lattice_distan
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, 1); __PYX_ERR(0, 18, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, 1); __PYX_ERR(0, 21, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_x2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, 2); __PYX_ERR(0, 18, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, 2); __PYX_ERR(0, 21, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, 3); __PYX_ERR(0, 18, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, 3); __PYX_ERR(0, 21, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "lattice_distance") < 0)) __PYX_ERR(0, 18, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "lattice_distance") < 0)) __PYX_ERR(0, 21, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -1934,14 +1940,14 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_3lattice_distan
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_x1 = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_x1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L3_error)
-    __pyx_v_y1 = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_y1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L3_error)
-    __pyx_v_x2 = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_x2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L3_error)
-    __pyx_v_y2 = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_y2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L3_error)
+    __pyx_v_x1 = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_x1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L3_error)
+    __pyx_v_y1 = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_y1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L3_error)
+    __pyx_v_x2 = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_x2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L3_error)
+    __pyx_v_y2 = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_y2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 18, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("lattice_distance", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 21, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.lattice_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1963,7 +1969,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_2lattice_distan
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lattice_distance", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_3src_9simulator_20cythonGraphFunctions_lattice_distance(__pyx_v_x1, __pyx_v_y1, __pyx_v_x2, __pyx_v_y2, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_3src_9simulator_20cythonGraphFunctions_lattice_distance(__pyx_v_x1, __pyx_v_y1, __pyx_v_x2, __pyx_v_y2, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1980,7 +1986,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_2lattice_distan
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":21
+/* "src/simulator/cythonGraphFunctions.pyx":24
  *     return c_lattice_distance(x1, y1, x2, y2)
  * 
  * cdef int c_lattice_distance(int x1, int y1, int x2, int y2):             # <<<<<<<<<<<<<<
@@ -2000,17 +2006,17 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("c_lattice_distance", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":24
+  /* "src/simulator/cythonGraphFunctions.pyx":27
  *     global LATTICE_SIZE
  *     cdef int dx, dy
  *     dx = cabs(x1-x2)             # <<<<<<<<<<<<<<
  *     if dx > LATTICE_SIZE/2:
  *         dx = LATTICE_SIZE - dx
  */
-  __pyx_t_1 = abs((__pyx_v_x1 - __pyx_v_x2)); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_1 = abs((__pyx_v_x1 - __pyx_v_x2)); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 27, __pyx_L1_error)
   __pyx_v_dx = __pyx_t_1;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":25
+  /* "src/simulator/cythonGraphFunctions.pyx":28
  *     cdef int dx, dy
  *     dx = cabs(x1-x2)
  *     if dx > LATTICE_SIZE/2:             # <<<<<<<<<<<<<<
@@ -2020,7 +2026,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
   __pyx_t_2 = ((__pyx_v_dx > __Pyx_div_long(__pyx_v_3src_9simulator_20cythonGraphFunctions_LATTICE_SIZE, 2)) != 0);
   if (__pyx_t_2) {
 
-    /* "src/simulator/cythonGraphFunctions.pyx":26
+    /* "src/simulator/cythonGraphFunctions.pyx":29
  *     dx = cabs(x1-x2)
  *     if dx > LATTICE_SIZE/2:
  *         dx = LATTICE_SIZE - dx             # <<<<<<<<<<<<<<
@@ -2029,7 +2035,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
  */
     __pyx_v_dx = (__pyx_v_3src_9simulator_20cythonGraphFunctions_LATTICE_SIZE - __pyx_v_dx);
 
-    /* "src/simulator/cythonGraphFunctions.pyx":25
+    /* "src/simulator/cythonGraphFunctions.pyx":28
  *     cdef int dx, dy
  *     dx = cabs(x1-x2)
  *     if dx > LATTICE_SIZE/2:             # <<<<<<<<<<<<<<
@@ -2038,17 +2044,17 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
  */
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":27
+  /* "src/simulator/cythonGraphFunctions.pyx":30
  *     if dx > LATTICE_SIZE/2:
  *         dx = LATTICE_SIZE - dx
  *     dy = cabs(y1-y2)             # <<<<<<<<<<<<<<
  *     if dy > LATTICE_SIZE/2:
  *         dy = LATTICE_SIZE - dy
  */
-  __pyx_t_1 = abs((__pyx_v_y1 - __pyx_v_y2)); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = abs((__pyx_v_y1 - __pyx_v_y2)); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 30, __pyx_L1_error)
   __pyx_v_dy = __pyx_t_1;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":28
+  /* "src/simulator/cythonGraphFunctions.pyx":31
  *         dx = LATTICE_SIZE - dx
  *     dy = cabs(y1-y2)
  *     if dy > LATTICE_SIZE/2:             # <<<<<<<<<<<<<<
@@ -2058,7 +2064,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
   __pyx_t_2 = ((__pyx_v_dy > __Pyx_div_long(__pyx_v_3src_9simulator_20cythonGraphFunctions_LATTICE_SIZE, 2)) != 0);
   if (__pyx_t_2) {
 
-    /* "src/simulator/cythonGraphFunctions.pyx":29
+    /* "src/simulator/cythonGraphFunctions.pyx":32
  *     dy = cabs(y1-y2)
  *     if dy > LATTICE_SIZE/2:
  *         dy = LATTICE_SIZE - dy             # <<<<<<<<<<<<<<
@@ -2067,7 +2073,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
  */
     __pyx_v_dy = (__pyx_v_3src_9simulator_20cythonGraphFunctions_LATTICE_SIZE - __pyx_v_dy);
 
-    /* "src/simulator/cythonGraphFunctions.pyx":28
+    /* "src/simulator/cythonGraphFunctions.pyx":31
  *         dx = LATTICE_SIZE - dx
  *     dy = cabs(y1-y2)
  *     if dy > LATTICE_SIZE/2:             # <<<<<<<<<<<<<<
@@ -2076,7 +2082,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
  */
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":30
+  /* "src/simulator/cythonGraphFunctions.pyx":33
  *     if dy > LATTICE_SIZE/2:
  *         dy = LATTICE_SIZE - dy
  *     return (dx + dy)             # <<<<<<<<<<<<<<
@@ -2086,7 +2092,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
   __pyx_r = (__pyx_v_dx + __pyx_v_dy);
   goto __pyx_L0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":21
+  /* "src/simulator/cythonGraphFunctions.pyx":24
  *     return c_lattice_distance(x1, y1, x2, y2)
  * 
  * cdef int c_lattice_distance(int x1, int y1, int x2, int y2):             # <<<<<<<<<<<<<<
@@ -2103,7 +2109,7 @@ static int __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(int
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":40
+/* "src/simulator/cythonGraphFunctions.pyx":43
  *     cdef int counter
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -2136,14 +2142,14 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap___i
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":41
+  /* "src/simulator/cythonGraphFunctions.pyx":44
  * 
  *     def __init__(self):
  *         self.pq = [] #List arranged as a min heap             # <<<<<<<<<<<<<<
  *         self.entry_finder = {} #mapping of items to enties
  *         self.REMOVED = (99999,99999) #placeholder for a removed task
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->pq);
@@ -2151,14 +2157,14 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap___i
   __pyx_v_self->pq = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":42
+  /* "src/simulator/cythonGraphFunctions.pyx":45
  *     def __init__(self):
  *         self.pq = [] #List arranged as a min heap
  *         self.entry_finder = {} #mapping of items to enties             # <<<<<<<<<<<<<<
  *         self.REMOVED = (99999,99999) #placeholder for a removed task
  *         self.counter = 0 #Number of elements that are not removed in the heap
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->entry_finder);
@@ -2166,7 +2172,7 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap___i
   __pyx_v_self->entry_finder = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":43
+  /* "src/simulator/cythonGraphFunctions.pyx":46
  *         self.pq = [] #List arranged as a min heap
  *         self.entry_finder = {} #mapping of items to enties
  *         self.REMOVED = (99999,99999) #placeholder for a removed task             # <<<<<<<<<<<<<<
@@ -2179,7 +2185,7 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap___i
   __Pyx_DECREF(__pyx_v_self->REMOVED);
   __pyx_v_self->REMOVED = __pyx_tuple_;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":44
+  /* "src/simulator/cythonGraphFunctions.pyx":47
  *         self.entry_finder = {} #mapping of items to enties
  *         self.REMOVED = (99999,99999) #placeholder for a removed task
  *         self.counter = 0 #Number of elements that are not removed in the heap             # <<<<<<<<<<<<<<
@@ -2188,7 +2194,7 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap___i
  */
   __pyx_v_self->counter = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":40
+  /* "src/simulator/cythonGraphFunctions.pyx":43
  *     cdef int counter
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -2208,7 +2214,7 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap___i
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":46
+/* "src/simulator/cythonGraphFunctions.pyx":49
  *         self.counter = 0 #Number of elements that are not removed in the heap
  * 
  *     cdef insert(self,  item, int priority):             # <<<<<<<<<<<<<<
@@ -2232,7 +2238,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("insert", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":47
+  /* "src/simulator/cythonGraphFunctions.pyx":50
  * 
  *     cdef insert(self,  item, int priority):
  *         if item in self.entry_finder:             # <<<<<<<<<<<<<<
@@ -2241,24 +2247,24 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
   if (unlikely(__pyx_v_self->entry_finder == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 47, __pyx_L1_error)
+    __PYX_ERR(0, 50, __pyx_L1_error)
   }
-  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_v_item, __pyx_v_self->entry_finder, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_v_item, __pyx_v_self->entry_finder, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "src/simulator/cythonGraphFunctions.pyx":48
+    /* "src/simulator/cythonGraphFunctions.pyx":51
  *     cdef insert(self,  item, int priority):
  *         if item in self.entry_finder:
  *             self.remove_item(item)             # <<<<<<<<<<<<<<
  * 
  *         cdef list entry = [priority, item]
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_self->__pyx_vtab)->remove_item(__pyx_v_self, __pyx_v_item); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_self->__pyx_vtab)->remove_item(__pyx_v_self, __pyx_v_item); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":47
+    /* "src/simulator/cythonGraphFunctions.pyx":50
  * 
  *     cdef insert(self,  item, int priority):
  *         if item in self.entry_finder:             # <<<<<<<<<<<<<<
@@ -2267,16 +2273,16 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":50
+  /* "src/simulator/cythonGraphFunctions.pyx":53
  *             self.remove_item(item)
  * 
  *         cdef list entry = [priority, item]             # <<<<<<<<<<<<<<
  *         self.entry_finder[item] = entry
  *         heappush(self.pq, entry)
  */
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_priority); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_priority); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_3);
   PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
@@ -2287,7 +2293,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   __pyx_v_entry = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":51
+  /* "src/simulator/cythonGraphFunctions.pyx":54
  * 
  *         cdef list entry = [priority, item]
  *         self.entry_finder[item] = entry             # <<<<<<<<<<<<<<
@@ -2296,18 +2302,18 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
   if (unlikely(__pyx_v_self->entry_finder == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 51, __pyx_L1_error)
+    __PYX_ERR(0, 54, __pyx_L1_error)
   }
-  if (unlikely(PyDict_SetItem(__pyx_v_self->entry_finder, __pyx_v_item, __pyx_v_entry) < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_self->entry_finder, __pyx_v_item, __pyx_v_entry) < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
 
-  /* "src/simulator/cythonGraphFunctions.pyx":52
+  /* "src/simulator/cythonGraphFunctions.pyx":55
  *         cdef list entry = [priority, item]
  *         self.entry_finder[item] = entry
  *         heappush(self.pq, entry)             # <<<<<<<<<<<<<<
  * 
  *         self.counter += 1
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_heappush); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_heappush); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -2324,7 +2330,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_self->pq, __pyx_v_entry};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else
@@ -2332,13 +2338,13 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_self->pq, __pyx_v_entry};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -2349,14 +2355,14 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
     __Pyx_INCREF(__pyx_v_entry);
     __Pyx_GIVEREF(__pyx_v_entry);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_entry);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":54
+  /* "src/simulator/cythonGraphFunctions.pyx":57
  *         heappush(self.pq, entry)
  * 
  *         self.counter += 1             # <<<<<<<<<<<<<<
@@ -2365,7 +2371,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
   __pyx_v_self->counter = (__pyx_v_self->counter + 1);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":46
+  /* "src/simulator/cythonGraphFunctions.pyx":49
  *         self.counter = 0 #Number of elements that are not removed in the heap
  * 
  *     cdef insert(self,  item, int priority):             # <<<<<<<<<<<<<<
@@ -2390,7 +2396,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":56
+/* "src/simulator/cythonGraphFunctions.pyx":59
  *         self.counter += 1
  * 
  *     cdef remove_item(self,  item):             # <<<<<<<<<<<<<<
@@ -2408,7 +2414,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("remove_item", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":58
+  /* "src/simulator/cythonGraphFunctions.pyx":61
  *     cdef remove_item(self,  item):
  *         "Mark an existing task as REMOVED"
  *         cdef list entry = self.entry_finder.pop(item)             # <<<<<<<<<<<<<<
@@ -2417,15 +2423,15 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
   if (unlikely(__pyx_v_self->entry_finder == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "pop");
-    __PYX_ERR(0, 58, __pyx_L1_error)
+    __PYX_ERR(0, 61, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_Pop(__pyx_v_self->entry_finder, __pyx_v_item, ((PyObject *)NULL)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Pop(__pyx_v_self->entry_finder, __pyx_v_item, ((PyObject *)NULL)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 61, __pyx_L1_error)
   __pyx_v_entry = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":59
+  /* "src/simulator/cythonGraphFunctions.pyx":62
  *         "Mark an existing task as REMOVED"
  *         cdef list entry = self.entry_finder.pop(item)
  *         entry[-1] = self.REMOVED             # <<<<<<<<<<<<<<
@@ -2436,12 +2442,12 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_v_entry == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 59, __pyx_L1_error)
+    __PYX_ERR(0, 62, __pyx_L1_error)
   }
-  if (unlikely(__Pyx_SetItemInt(__pyx_v_entry, -1L, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 1, 1, 1) < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+  if (unlikely(__Pyx_SetItemInt(__pyx_v_entry, -1L, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 1, 1, 1) < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":60
+  /* "src/simulator/cythonGraphFunctions.pyx":63
  *         cdef list entry = self.entry_finder.pop(item)
  *         entry[-1] = self.REMOVED
  *         self.counter -= 1             # <<<<<<<<<<<<<<
@@ -2450,7 +2456,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
   __pyx_v_self->counter = (__pyx_v_self->counter - 1);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":56
+  /* "src/simulator/cythonGraphFunctions.pyx":59
  *         self.counter += 1
  * 
  *     cdef remove_item(self,  item):             # <<<<<<<<<<<<<<
@@ -2472,7 +2478,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":62
+/* "src/simulator/cythonGraphFunctions.pyx":65
  *         self.counter -= 1
  * 
  *     cdef pop(self):             # <<<<<<<<<<<<<<
@@ -2495,7 +2501,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("pop", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":66
+  /* "src/simulator/cythonGraphFunctions.pyx":69
  * 
  * 
  *         while self.pq:             # <<<<<<<<<<<<<<
@@ -2506,14 +2512,14 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
     __pyx_t_1 = (__pyx_v_self->pq != Py_None)&&(PyList_GET_SIZE(__pyx_v_self->pq) != 0);
     if (!__pyx_t_1) break;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":67
+    /* "src/simulator/cythonGraphFunctions.pyx":70
  * 
  *         while self.pq:
  *             entry = heappop(self.pq)             # <<<<<<<<<<<<<<
  *             item = entry[1]
  *             if item is not self.REMOVED:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_heappop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_heappop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -2527,25 +2533,25 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_self->pq) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_self->pq);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_entry, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":68
+    /* "src/simulator/cythonGraphFunctions.pyx":71
  *         while self.pq:
  *             entry = heappop(self.pq)
  *             item = entry[1]             # <<<<<<<<<<<<<<
  *             if item is not self.REMOVED:
  *                 self.counter -= 1
  */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_entry, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_entry, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":69
+    /* "src/simulator/cythonGraphFunctions.pyx":72
  *             entry = heappop(self.pq)
  *             item = entry[1]
  *             if item is not self.REMOVED:             # <<<<<<<<<<<<<<
@@ -2556,7 +2562,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
     __pyx_t_5 = (__pyx_t_1 != 0);
     if (__pyx_t_5) {
 
-      /* "src/simulator/cythonGraphFunctions.pyx":70
+      /* "src/simulator/cythonGraphFunctions.pyx":73
  *             item = entry[1]
  *             if item is not self.REMOVED:
  *                 self.counter -= 1             # <<<<<<<<<<<<<<
@@ -2565,7 +2571,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
       __pyx_v_self->counter = (__pyx_v_self->counter - 1);
 
-      /* "src/simulator/cythonGraphFunctions.pyx":71
+      /* "src/simulator/cythonGraphFunctions.pyx":74
  *             if item is not self.REMOVED:
  *                 self.counter -= 1
  *                 del self.entry_finder[item]             # <<<<<<<<<<<<<<
@@ -2574,11 +2580,11 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  */
       if (unlikely(__pyx_v_self->entry_finder == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 71, __pyx_L1_error)
+        __PYX_ERR(0, 74, __pyx_L1_error)
       }
-      if (unlikely(PyDict_DelItem(__pyx_v_self->entry_finder, __pyx_v_item) < 0)) __PYX_ERR(0, 71, __pyx_L1_error)
+      if (unlikely(PyDict_DelItem(__pyx_v_self->entry_finder, __pyx_v_item) < 0)) __PYX_ERR(0, 74, __pyx_L1_error)
 
-      /* "src/simulator/cythonGraphFunctions.pyx":72
+      /* "src/simulator/cythonGraphFunctions.pyx":75
  *                 self.counter -= 1
  *                 del self.entry_finder[item]
  *                 return item             # <<<<<<<<<<<<<<
@@ -2590,7 +2596,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
       __pyx_r = __pyx_v_item;
       goto __pyx_L0;
 
-      /* "src/simulator/cythonGraphFunctions.pyx":69
+      /* "src/simulator/cythonGraphFunctions.pyx":72
  *             entry = heappop(self.pq)
  *             item = entry[1]
  *             if item is not self.REMOVED:             # <<<<<<<<<<<<<<
@@ -2600,7 +2606,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
     }
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":62
+  /* "src/simulator/cythonGraphFunctions.pyx":65
  *         self.counter -= 1
  * 
  *     cdef pop(self):             # <<<<<<<<<<<<<<
@@ -2625,7 +2631,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":73
+/* "src/simulator/cythonGraphFunctions.pyx":76
  *                 del self.entry_finder[item]
  *                 return item
  *     cdef is_empty(self):             # <<<<<<<<<<<<<<
@@ -2642,7 +2648,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_empty", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":74
+  /* "src/simulator/cythonGraphFunctions.pyx":77
  *                 return item
  *     cdef is_empty(self):
  *         return self.counter == 0             # <<<<<<<<<<<<<<
@@ -2650,13 +2656,13 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHea
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((__pyx_v_self->counter == 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((__pyx_v_self->counter == 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":73
+  /* "src/simulator/cythonGraphFunctions.pyx":76
  *                 del self.entry_finder[item]
  *                 return item
  *     cdef is_empty(self):             # <<<<<<<<<<<<<<
@@ -2997,7 +3003,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_15PriorityMinHe
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":79
+/* "src/simulator/cythonGraphFunctions.pyx":82
  * 
  * 
  * cdef list reconstruct_path(dict came_from, start, current):             # <<<<<<<<<<<<<<
@@ -3018,14 +3024,14 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
   __Pyx_RefNannySetupContext("reconstruct_path", 0);
   __Pyx_INCREF(__pyx_v_current);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":80
+  /* "src/simulator/cythonGraphFunctions.pyx":83
  * 
  * cdef list reconstruct_path(dict came_from, start, current):
  *     cdef list total = [current]             # <<<<<<<<<<<<<<
  * 
  *     while True:
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_current);
   __Pyx_GIVEREF(__pyx_v_current);
@@ -3033,7 +3039,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
   __pyx_v_total = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":82
+  /* "src/simulator/cythonGraphFunctions.pyx":85
  *     cdef list total = [current]
  * 
  *     while True:             # <<<<<<<<<<<<<<
@@ -3042,7 +3048,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
  */
   while (1) {
 
-    /* "src/simulator/cythonGraphFunctions.pyx":83
+    /* "src/simulator/cythonGraphFunctions.pyx":86
  * 
  *     while True:
  *         current = came_from[current]             # <<<<<<<<<<<<<<
@@ -3051,26 +3057,26 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
  */
     if (unlikely(__pyx_v_came_from == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 83, __pyx_L1_error)
+      __PYX_ERR(0, 86, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_came_from, __pyx_v_current); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_came_from, __pyx_v_current); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_current, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":84
+    /* "src/simulator/cythonGraphFunctions.pyx":87
  *     while True:
  *         current = came_from[current]
  *         if current==start:             # <<<<<<<<<<<<<<
  *             break
  *         else:
  */
-    __pyx_t_1 = PyObject_RichCompare(__pyx_v_current, __pyx_v_start, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_v_current, __pyx_v_start, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_2) {
 
-      /* "src/simulator/cythonGraphFunctions.pyx":85
+      /* "src/simulator/cythonGraphFunctions.pyx":88
  *         current = came_from[current]
  *         if current==start:
  *             break             # <<<<<<<<<<<<<<
@@ -3079,7 +3085,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
  */
       goto __pyx_L4_break;
 
-      /* "src/simulator/cythonGraphFunctions.pyx":84
+      /* "src/simulator/cythonGraphFunctions.pyx":87
  *     while True:
  *         current = came_from[current]
  *         if current==start:             # <<<<<<<<<<<<<<
@@ -3088,7 +3094,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
  */
     }
 
-    /* "src/simulator/cythonGraphFunctions.pyx":87
+    /* "src/simulator/cythonGraphFunctions.pyx":90
  *             break
  *         else:
  *             total.append(current)             # <<<<<<<<<<<<<<
@@ -3096,12 +3102,12 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
  * 
  */
     /*else*/ {
-      __pyx_t_3 = __Pyx_PyList_Append(__pyx_v_total, __pyx_v_current); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 87, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyList_Append(__pyx_v_total, __pyx_v_current); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 90, __pyx_L1_error)
     }
   }
   __pyx_L4_break:;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":88
+  /* "src/simulator/cythonGraphFunctions.pyx":91
  *         else:
  *             total.append(current)
  *     return total             # <<<<<<<<<<<<<<
@@ -3113,7 +3119,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
   __pyx_r = __pyx_v_total;
   goto __pyx_L0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":79
+  /* "src/simulator/cythonGraphFunctions.pyx":82
  * 
  * 
  * cdef list reconstruct_path(dict came_from, start, current):             # <<<<<<<<<<<<<<
@@ -3134,7 +3140,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":93
+/* "src/simulator/cythonGraphFunctions.pyx":96
  * cdef class AStar():
  *     cdef int max_length
  *     def __init__(self, max_length):             # <<<<<<<<<<<<<<
@@ -3171,7 +3177,7 @@ static int __pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_1__init__(PyOb
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 93, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 96, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -3182,7 +3188,7 @@ static int __pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_1__init__(PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 93, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 96, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.AStar.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3204,17 +3210,17 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar___init__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":94
+  /* "src/simulator/cythonGraphFunctions.pyx":97
  *     cdef int max_length
  *     def __init__(self, max_length):
  *         self.max_length = max_length             # <<<<<<<<<<<<<<
  * 
  *     cpdef list new_path(self,  start,  goal):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_max_length); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_max_length); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
   __pyx_v_self->max_length = __pyx_t_1;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":93
+  /* "src/simulator/cythonGraphFunctions.pyx":96
  * cdef class AStar():
  *     cdef int max_length
  *     def __init__(self, max_length):             # <<<<<<<<<<<<<<
@@ -3233,7 +3239,7 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar___init__(struc
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":96
+/* "src/simulator/cythonGraphFunctions.pyx":99
  *         self.max_length = max_length
  * 
  *     cpdef list new_path(self,  start,  goal):             # <<<<<<<<<<<<<<
@@ -3243,7 +3249,9 @@ static int __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar___init__(struc
 
 static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_3new_path(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(CYTHON_UNUSED struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_start, PyObject *__pyx_v_goal, int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_closed_set = 0;
+  int __pyx_v_visited[0x3E8][0x3E8];
+  long __pyx_v_i;
+  long __pyx_v_j;
   struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *__pyx_v_open_set = 0;
   PyObject *__pyx_v_g_score = 0;
   PyObject *__pyx_v_came_from = 0;
@@ -3261,14 +3269,17 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
-  int __pyx_t_8;
+  long __pyx_t_7;
+  long __pyx_t_8;
   int __pyx_t_9;
   int __pyx_t_10;
   int __pyx_t_11;
   int __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  int __pyx_t_14;
+  int __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  int __pyx_t_17;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3282,7 +3293,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_new_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_new_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_3new_path)) {
         __Pyx_XDECREF(__pyx_r);
@@ -3302,7 +3313,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_start, __pyx_v_goal};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -3310,13 +3321,13 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_start, __pyx_v_goal};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 99, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3327,12 +3338,12 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
           __Pyx_INCREF(__pyx_v_goal);
           __Pyx_GIVEREF(__pyx_v_goal);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_goal);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 96, __pyx_L1_error)
+        if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 99, __pyx_L1_error)
         __pyx_r = ((PyObject*)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3351,96 +3362,115 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
     #endif
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":99
- *         global CITY
- * 
- *         cdef set closed_set = set() #Set of positions already visited             # <<<<<<<<<<<<<<
- *         cdef PriorityMinHeap open_set = PriorityMinHeap() #Min heap of posible positions available for expansion
+  /* "src/simulator/cythonGraphFunctions.pyx":107
+ *         #cdef visited = np.zeros([self.max_length, self.max_length], dtype=bool)
+ *         cdef int visited [1000][1000]
+ *         for i in range(1000):             # <<<<<<<<<<<<<<
+ *             for j in range(1000):
+ *                 visited[i][j] = 0
+ */
+  for (__pyx_t_7 = 0; __pyx_t_7 < 0x3E8; __pyx_t_7+=1) {
+    __pyx_v_i = __pyx_t_7;
+
+    /* "src/simulator/cythonGraphFunctions.pyx":108
+ *         cdef int visited [1000][1000]
+ *         for i in range(1000):
+ *             for j in range(1000):             # <<<<<<<<<<<<<<
+ *                 visited[i][j] = 0
  * 
  */
-  __pyx_t_1 = PySet_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_closed_set = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
+    for (__pyx_t_8 = 0; __pyx_t_8 < 0x3E8; __pyx_t_8+=1) {
+      __pyx_v_j = __pyx_t_8;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":100
+      /* "src/simulator/cythonGraphFunctions.pyx":109
+ *         for i in range(1000):
+ *             for j in range(1000):
+ *                 visited[i][j] = 0             # <<<<<<<<<<<<<<
  * 
- *         cdef set closed_set = set() #Set of positions already visited
+ * 
+ */
+      ((__pyx_v_visited[__pyx_v_i])[__pyx_v_j]) = 0;
+    }
+  }
+
+  /* "src/simulator/cythonGraphFunctions.pyx":112
+ * 
+ * 
  *         cdef PriorityMinHeap open_set = PriorityMinHeap() #Min heap of posible positions available for expansion             # <<<<<<<<<<<<<<
  * 
  *         #Dictionary containing (position:distance), which is the distance to
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_open_set = ((struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":104
+  /* "src/simulator/cythonGraphFunctions.pyx":116
  *         #Dictionary containing (position:distance), which is the distance to
  *         #the goal from the position
  *         cdef dict g_score = {start:0}             # <<<<<<<<<<<<<<
  * 
  *         #Dictionary containing the relationship between posititions
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_v_start, __pyx_int_0) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_v_start, __pyx_int_0) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __pyx_v_g_score = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":107
+  /* "src/simulator/cythonGraphFunctions.pyx":119
  * 
  *         #Dictionary containing the relationship between posititions
  *         cdef dict came_from = {start:start}             # <<<<<<<<<<<<<<
  * 
  *         cdef int road_type, g_score_current,new_g_score
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_v_start, __pyx_v_start) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_v_start, __pyx_v_start) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_v_came_from = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":112
+  /* "src/simulator/cythonGraphFunctions.pyx":124
  *         cdef list successors
  * 
  *         open_set.insert(start, c_lattice_distance(start.pos[0],start.pos[1], goal.pos[0], goal.pos[1]))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_start, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_start, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_start, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_start, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->insert(__pyx_v_open_set, __pyx_v_start, __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(__pyx_t_5, __pyx_t_7, __pyx_t_8, __pyx_t_9)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->insert(__pyx_v_open_set, __pyx_v_start, __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(__pyx_t_5, __pyx_t_9, __pyx_t_10, __pyx_t_11)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":115
+  /* "src/simulator/cythonGraphFunctions.pyx":127
  * 
  * 
  *         while not open_set.is_empty():             # <<<<<<<<<<<<<<
@@ -3448,38 +3478,38 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
  *             current = open_set.pop()
  */
   while (1) {
-    __pyx_t_1 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->is_empty(__pyx_v_open_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->is_empty(__pyx_v_open_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_11 = ((!__pyx_t_10) != 0);
-    if (!__pyx_t_11) break;
+    __pyx_t_13 = ((!__pyx_t_12) != 0);
+    if (!__pyx_t_13) break;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":117
+    /* "src/simulator/cythonGraphFunctions.pyx":129
  *         while not open_set.is_empty():
  *             #If there are available nodos, take the most promising one (lowest f_score)
  *             current = open_set.pop()             # <<<<<<<<<<<<<<
  * 
  *             # Check for a end condition
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->pop(__pyx_v_open_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->pop(__pyx_v_open_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_current, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":120
+    /* "src/simulator/cythonGraphFunctions.pyx":132
  * 
  *             # Check for a end condition
  *             if current == goal:             # <<<<<<<<<<<<<<
  *                 #If the node is the goal, we have finished
  *                 return reconstruct_path(came_from,start, current)
  */
-    __pyx_t_1 = PyObject_RichCompare(__pyx_v_current, __pyx_v_goal, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_v_current, __pyx_v_goal, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__pyx_t_11) {
+    if (__pyx_t_13) {
 
-      /* "src/simulator/cythonGraphFunctions.pyx":122
+      /* "src/simulator/cythonGraphFunctions.pyx":134
  *             if current == goal:
  *                 #If the node is the goal, we have finished
  *                 return reconstruct_path(came_from,start, current)             # <<<<<<<<<<<<<<
@@ -3487,13 +3517,13 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
  *                 #Otherwise we need to explore the current node
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_1 = __pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path(__pyx_v_came_from, __pyx_v_start, __pyx_v_current); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+      __pyx_t_1 = __pyx_f_3src_9simulator_20cythonGraphFunctions_reconstruct_path(__pyx_v_came_from, __pyx_v_start, __pyx_v_current); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_r = ((PyObject*)__pyx_t_1);
       __pyx_t_1 = 0;
       goto __pyx_L0;
 
-      /* "src/simulator/cythonGraphFunctions.pyx":120
+      /* "src/simulator/cythonGraphFunctions.pyx":132
  * 
  *             # Check for a end condition
  *             if current == goal:             # <<<<<<<<<<<<<<
@@ -3502,105 +3532,132 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
  */
     }
 
-    /* "src/simulator/cythonGraphFunctions.pyx":125
- *             else:
+    /* "src/simulator/cythonGraphFunctions.pyx":138
  *                 #Otherwise we need to explore the current node
- *                 closed_set.add(current)             # <<<<<<<<<<<<<<
+ *                 #closed_set.add(current)
+ *                 visited[current.pos[0]][current.pos[1]] = 1             # <<<<<<<<<<<<<<
  * 
  *             road_type = current.cell_type
  */
     /*else*/ {
-      __pyx_t_12 = PySet_Add(__pyx_v_closed_set, __pyx_v_current); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_14 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_14 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_15 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_15 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      ((__pyx_v_visited[__pyx_t_14])[__pyx_t_15]) = 1;
     }
 
-    /* "src/simulator/cythonGraphFunctions.pyx":127
- *                 closed_set.add(current)
+    /* "src/simulator/cythonGraphFunctions.pyx":140
+ *                 visited[current.pos[0]][current.pos[1]] = 1
  * 
  *             road_type = current.cell_type             # <<<<<<<<<<<<<<
  *             successors = current.successors
  *             g_score_current = g_score[current]
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_cell_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_cell_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_v_road_type = __pyx_t_9;
+    __pyx_v_road_type = __pyx_t_11;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":128
+    /* "src/simulator/cythonGraphFunctions.pyx":141
  * 
  *             road_type = current.cell_type
  *             successors = current.successors             # <<<<<<<<<<<<<<
  *             g_score_current = g_score[current]
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_successors); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_successors); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 128, __pyx_L1_error)
+    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 141, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_successors, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":129
+    /* "src/simulator/cythonGraphFunctions.pyx":142
  *             road_type = current.cell_type
  *             successors = current.successors
  *             g_score_current = g_score[current]             # <<<<<<<<<<<<<<
  * 
  *             for successor in successors:
  */
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_g_score, __pyx_v_current); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_g_score, __pyx_v_current); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_v_g_score_current = __pyx_t_9;
+    __pyx_v_g_score_current = __pyx_t_11;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":131
+    /* "src/simulator/cythonGraphFunctions.pyx":144
  *             g_score_current = g_score[current]
  * 
  *             for successor in successors:             # <<<<<<<<<<<<<<
  * 
- *                 if successor not in closed_set:
+ *                 #if successor not in closed_set:
  */
     if (unlikely(__pyx_v_successors == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 131, __pyx_L1_error)
+      __PYX_ERR(0, 144, __pyx_L1_error)
     }
-    __pyx_t_1 = __pyx_v_successors; __Pyx_INCREF(__pyx_t_1); __pyx_t_13 = 0;
+    __pyx_t_1 = __pyx_v_successors; __Pyx_INCREF(__pyx_t_1); __pyx_t_15 = 0;
     for (;;) {
-      if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_1)) break;
+      if (__pyx_t_15 >= PyList_GET_SIZE(__pyx_t_1)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_13); __Pyx_INCREF(__pyx_t_2); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_15); __Pyx_INCREF(__pyx_t_2); __pyx_t_15++; if (unlikely(0 < 0)) __PYX_ERR(0, 144, __pyx_L1_error)
       #else
-      __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_15); __pyx_t_15++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       #endif
       __Pyx_XDECREF_SET(__pyx_v_successor, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "src/simulator/cythonGraphFunctions.pyx":133
- *             for successor in successors:
+      /* "src/simulator/cythonGraphFunctions.pyx":147
  * 
- *                 if successor not in closed_set:             # <<<<<<<<<<<<<<
+ *                 #if successor not in closed_set:
+ *                 if visited[successor.pos[0]][successor.pos[1]]==0:             # <<<<<<<<<<<<<<
  *                     #If the neighbour hasn't been visited
  *                     #Compute the possible g_score
  */
-      __pyx_t_11 = (__Pyx_PySet_ContainsTF(__pyx_v_successor, __pyx_v_closed_set, Py_NE)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
-      __pyx_t_10 = (__pyx_t_11 != 0);
-      if (__pyx_t_10) {
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_successor, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_14 = __Pyx_PyIndex_AsSsize_t(__pyx_t_3); if (unlikely((__pyx_t_14 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_successor, __pyx_n_s_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_16 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_16 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_13 = ((((__pyx_v_visited[__pyx_t_14])[__pyx_t_16]) == 0) != 0);
+      if (__pyx_t_13) {
 
-        /* "src/simulator/cythonGraphFunctions.pyx":136
+        /* "src/simulator/cythonGraphFunctions.pyx":150
  *                     #If the neighbour hasn't been visited
  *                     #Compute the possible g_score
  *                     if successor not in current.prio_successors:             # <<<<<<<<<<<<<<
  *                         new_g_score = g_score_current + road_type + 1
  *                     else:
  */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_prio_successors); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_current, __pyx_n_s_prio_successors); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_10 = (__Pyx_PySequence_ContainsTF(__pyx_v_successor, __pyx_t_2, Py_NE)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
+        __pyx_t_13 = (__Pyx_PySequence_ContainsTF(__pyx_v_successor, __pyx_t_2, Py_NE)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 150, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_11 = (__pyx_t_10 != 0);
-        if (__pyx_t_11) {
+        __pyx_t_12 = (__pyx_t_13 != 0);
+        if (__pyx_t_12) {
 
-          /* "src/simulator/cythonGraphFunctions.pyx":137
+          /* "src/simulator/cythonGraphFunctions.pyx":151
  *                     #Compute the possible g_score
  *                     if successor not in current.prio_successors:
  *                         new_g_score = g_score_current + road_type + 1             # <<<<<<<<<<<<<<
@@ -3609,17 +3666,17 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
  */
           __pyx_v_new_g_score = ((__pyx_v_g_score_current + __pyx_v_road_type) + 1);
 
-          /* "src/simulator/cythonGraphFunctions.pyx":136
+          /* "src/simulator/cythonGraphFunctions.pyx":150
  *                     #If the neighbour hasn't been visited
  *                     #Compute the possible g_score
  *                     if successor not in current.prio_successors:             # <<<<<<<<<<<<<<
  *                         new_g_score = g_score_current + road_type + 1
  *                     else:
  */
-          goto __pyx_L9;
+          goto __pyx_L13;
         }
 
-        /* "src/simulator/cythonGraphFunctions.pyx":139
+        /* "src/simulator/cythonGraphFunctions.pyx":153
  *                         new_g_score = g_score_current + road_type + 1
  *                     else:
  *                         new_g_score = g_score_current + road_type             # <<<<<<<<<<<<<<
@@ -3629,96 +3686,96 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
         /*else*/ {
           __pyx_v_new_g_score = (__pyx_v_g_score_current + __pyx_v_road_type);
         }
-        __pyx_L9:;
+        __pyx_L13:;
 
-        /* "src/simulator/cythonGraphFunctions.pyx":141
+        /* "src/simulator/cythonGraphFunctions.pyx":155
  *                         new_g_score = g_score_current + road_type
  * 
  *                     if successor not in g_score or new_g_score < g_score[successor]:             # <<<<<<<<<<<<<<
  *                         #Add the neighbour with the g_score to the heap
  * 
  */
-        __pyx_t_10 = (__Pyx_PyDict_ContainsTF(__pyx_v_successor, __pyx_v_g_score, Py_NE)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 141, __pyx_L1_error)
-        __pyx_t_14 = (__pyx_t_10 != 0);
-        if (!__pyx_t_14) {
+        __pyx_t_13 = (__Pyx_PyDict_ContainsTF(__pyx_v_successor, __pyx_v_g_score, Py_NE)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_17 = (__pyx_t_13 != 0);
+        if (!__pyx_t_17) {
         } else {
-          __pyx_t_11 = __pyx_t_14;
-          goto __pyx_L11_bool_binop_done;
+          __pyx_t_12 = __pyx_t_17;
+          goto __pyx_L15_bool_binop_done;
         }
-        __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_new_g_score); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_new_g_score); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_g_score, __pyx_v_successor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_g_score, __pyx_v_successor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_6 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 141, __pyx_L1_error)
+        __pyx_t_6 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 155, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_14 < 0)) __PYX_ERR(0, 141, __pyx_L1_error)
+        __pyx_t_17 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_17 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_11 = __pyx_t_14;
-        __pyx_L11_bool_binop_done:;
-        if (__pyx_t_11) {
+        __pyx_t_12 = __pyx_t_17;
+        __pyx_L15_bool_binop_done:;
+        if (__pyx_t_12) {
 
-          /* "src/simulator/cythonGraphFunctions.pyx":144
+          /* "src/simulator/cythonGraphFunctions.pyx":158
  *                         #Add the neighbour with the g_score to the heap
  * 
  *                         open_set.insert(successor, new_g_score + c_lattice_distance(successor.pos[0], successor.pos[1], goal.pos[0], goal.pos[1]))             # <<<<<<<<<<<<<<
  *                         g_score[successor] = new_g_score
  *                         came_from[successor] = current
  */
-          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_successor, __pyx_n_s_pos); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_successor, __pyx_n_s_pos); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_successor, __pyx_n_s_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_successor, __pyx_n_s_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->insert(__pyx_v_open_set, __pyx_v_successor, (__pyx_v_new_g_score + __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(__pyx_t_9, __pyx_t_8, __pyx_t_7, __pyx_t_5))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
+          __pyx_t_6 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *)__pyx_v_open_set->__pyx_vtab)->insert(__pyx_v_open_set, __pyx_v_successor, (__pyx_v_new_g_score + __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(__pyx_t_11, __pyx_t_10, __pyx_t_9, __pyx_t_5))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 158, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-          /* "src/simulator/cythonGraphFunctions.pyx":145
+          /* "src/simulator/cythonGraphFunctions.pyx":159
  * 
  *                         open_set.insert(successor, new_g_score + c_lattice_distance(successor.pos[0], successor.pos[1], goal.pos[0], goal.pos[1]))
  *                         g_score[successor] = new_g_score             # <<<<<<<<<<<<<<
  *                         came_from[successor] = current
  * 
  */
-          __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_new_g_score); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 145, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_new_g_score); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 159, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
-          if (unlikely(PyDict_SetItem(__pyx_v_g_score, __pyx_v_successor, __pyx_t_6) < 0)) __PYX_ERR(0, 145, __pyx_L1_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_g_score, __pyx_v_successor, __pyx_t_6) < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-          /* "src/simulator/cythonGraphFunctions.pyx":146
+          /* "src/simulator/cythonGraphFunctions.pyx":160
  *                         open_set.insert(successor, new_g_score + c_lattice_distance(successor.pos[0], successor.pos[1], goal.pos[0], goal.pos[1]))
  *                         g_score[successor] = new_g_score
  *                         came_from[successor] = current             # <<<<<<<<<<<<<<
  * 
  * 
  */
-          if (unlikely(PyDict_SetItem(__pyx_v_came_from, __pyx_v_successor, __pyx_v_current) < 0)) __PYX_ERR(0, 146, __pyx_L1_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_came_from, __pyx_v_successor, __pyx_v_current) < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
 
-          /* "src/simulator/cythonGraphFunctions.pyx":141
+          /* "src/simulator/cythonGraphFunctions.pyx":155
  *                         new_g_score = g_score_current + road_type
  * 
  *                     if successor not in g_score or new_g_score < g_score[successor]:             # <<<<<<<<<<<<<<
@@ -3727,27 +3784,27 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
  */
         }
 
-        /* "src/simulator/cythonGraphFunctions.pyx":133
- *             for successor in successors:
+        /* "src/simulator/cythonGraphFunctions.pyx":147
  * 
- *                 if successor not in closed_set:             # <<<<<<<<<<<<<<
+ *                 #if successor not in closed_set:
+ *                 if visited[successor.pos[0]][successor.pos[1]]==0:             # <<<<<<<<<<<<<<
  *                     #If the neighbour hasn't been visited
  *                     #Compute the possible g_score
  */
       }
 
-      /* "src/simulator/cythonGraphFunctions.pyx":131
+      /* "src/simulator/cythonGraphFunctions.pyx":144
  *             g_score_current = g_score[current]
  * 
  *             for successor in successors:             # <<<<<<<<<<<<<<
  * 
- *                 if successor not in closed_set:
+ *                 #if successor not in closed_set:
  */
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":96
+  /* "src/simulator/cythonGraphFunctions.pyx":99
  *         self.max_length = max_length
  * 
  *     cpdef list new_path(self,  start,  goal):             # <<<<<<<<<<<<<<
@@ -3767,7 +3824,6 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(
   __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.AStar.new_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_closed_set);
   __Pyx_XDECREF((PyObject *)__pyx_v_open_set);
   __Pyx_XDECREF(__pyx_v_g_score);
   __Pyx_XDECREF(__pyx_v_came_from);
@@ -3813,11 +3869,11 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_3new_pat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_goal)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("new_path", 1, 2, 2, 1); __PYX_ERR(0, 96, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("new_path", 1, 2, 2, 1); __PYX_ERR(0, 99, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "new_path") < 0)) __PYX_ERR(0, 96, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "new_path") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3830,7 +3886,7 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_3new_pat
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("new_path", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 96, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("new_path", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.AStar.new_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3852,7 +3908,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_2new_pat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("new_path", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(__pyx_v_self, __pyx_v_start, __pyx_v_goal, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path(__pyx_v_self, __pyx_v_start, __pyx_v_goal, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3869,7 +3925,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_2new_pat
   return __pyx_r;
 }
 
-/* "src/simulator/cythonGraphFunctions.pyx":149
+/* "src/simulator/cythonGraphFunctions.pyx":163
  * 
  * 
  *     cpdef list recompute_path(self, list current_path,  current_cell,  target):             # <<<<<<<<<<<<<<
@@ -3908,7 +3964,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_recompute_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_recompute_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_5recompute_path)) {
         __Pyx_XDECREF(__pyx_r);
@@ -3928,7 +3984,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_current_path, __pyx_v_current_cell, __pyx_v_target};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -3936,13 +3992,13 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_current_path, __pyx_v_current_cell, __pyx_v_target};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 163, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3956,12 +4012,12 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
           __Pyx_INCREF(__pyx_v_target);
           __Pyx_GIVEREF(__pyx_v_target);
           PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, __pyx_v_target);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 149, __pyx_L1_error)
+        if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||((void)PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 163, __pyx_L1_error)
         __pyx_r = ((PyObject*)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3980,7 +4036,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
     #endif
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":153
+  /* "src/simulator/cythonGraphFunctions.pyx":167
  * 
  * 
  *         if len(current_path) > 2:             # <<<<<<<<<<<<<<
@@ -3989,13 +4045,13 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
  */
   if (unlikely(__pyx_v_current_path == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 153, __pyx_L1_error)
+    __PYX_ERR(0, 167, __pyx_L1_error)
   }
-  __pyx_t_7 = PyList_GET_SIZE(__pyx_v_current_path); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_t_7 = PyList_GET_SIZE(__pyx_v_current_path); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 167, __pyx_L1_error)
   __pyx_t_8 = ((__pyx_t_7 > 2) != 0);
   if (__pyx_t_8) {
 
-    /* "src/simulator/cythonGraphFunctions.pyx":154
+    /* "src/simulator/cythonGraphFunctions.pyx":168
  * 
  *         if len(current_path) > 2:
  *             cut_index = int(len(current_path)/2) - 1             # <<<<<<<<<<<<<<
@@ -4004,21 +4060,21 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
  */
     if (unlikely(__pyx_v_current_path == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 154, __pyx_L1_error)
+      __PYX_ERR(0, 168, __pyx_L1_error)
     }
-    __pyx_t_7 = PyList_GET_SIZE(__pyx_v_current_path); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 154, __pyx_L1_error)
-    __pyx_t_1 = PyInt_FromSsize_t(__Pyx_div_Py_ssize_t(__pyx_t_7, 2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_7 = PyList_GET_SIZE(__pyx_v_current_path); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 168, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__Pyx_div_Py_ssize_t(__pyx_t_7, 2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyInt_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyInt_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_cut_index = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":156
+    /* "src/simulator/cythonGraphFunctions.pyx":170
  *             cut_index = int(len(current_path)/2) - 1
  * 
  *             extension_path = self.new_path(current_cell, current_path[cut_index])             # <<<<<<<<<<<<<<
@@ -4027,17 +4083,17 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
  */
     if (unlikely(__pyx_v_current_path == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 156, __pyx_L1_error)
+      __PYX_ERR(0, 170, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_current_path, __pyx_v_cut_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_current_path, __pyx_v_cut_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self->__pyx_vtab)->new_path(__pyx_v_self, __pyx_v_current_cell, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self->__pyx_vtab)->new_path(__pyx_v_self, __pyx_v_current_cell, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_extension_path = ((PyObject*)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":157
+    /* "src/simulator/cythonGraphFunctions.pyx":171
  * 
  *             extension_path = self.new_path(current_cell, current_path[cut_index])
  *             del current_path[cut_index : ]             # <<<<<<<<<<<<<<
@@ -4046,7 +4102,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
  */
     if (unlikely(__pyx_v_current_path == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 157, __pyx_L1_error)
+      __PYX_ERR(0, 171, __pyx_L1_error)
     }
     __Pyx_INCREF(__pyx_v_cut_index);
     __pyx_t_2 = __pyx_v_cut_index;
@@ -4054,13 +4110,13 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
     if (__pyx_t_8) {
       __pyx_t_7 = 0;
     } else {
-      __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 171, __pyx_L1_error)
       __pyx_t_7 = __pyx_t_9;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (__Pyx_PyObject_DelSlice(__pyx_v_current_path, __pyx_t_7, 0, NULL, NULL, NULL, 1, 0, 1) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
+    if (__Pyx_PyObject_DelSlice(__pyx_v_current_path, __pyx_t_7, 0, NULL, NULL, NULL, 1, 0, 1) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
 
-    /* "src/simulator/cythonGraphFunctions.pyx":158
+    /* "src/simulator/cythonGraphFunctions.pyx":172
  *             extension_path = self.new_path(current_cell, current_path[cut_index])
  *             del current_path[cut_index : ]
  *             for next_step in extension_path:             # <<<<<<<<<<<<<<
@@ -4069,21 +4125,21 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
  */
     if (unlikely(__pyx_v_extension_path == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 158, __pyx_L1_error)
+      __PYX_ERR(0, 172, __pyx_L1_error)
     }
     __pyx_t_2 = __pyx_v_extension_path; __Pyx_INCREF(__pyx_t_2); __pyx_t_7 = 0;
     for (;;) {
       if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_2)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
       #else
-      __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #endif
       __Pyx_XDECREF_SET(__pyx_v_next_step, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "src/simulator/cythonGraphFunctions.pyx":159
+      /* "src/simulator/cythonGraphFunctions.pyx":173
  *             del current_path[cut_index : ]
  *             for next_step in extension_path:
  *                 current_path.append(next_step)             # <<<<<<<<<<<<<<
@@ -4092,11 +4148,11 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
  */
       if (unlikely(__pyx_v_current_path == Py_None)) {
         PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-        __PYX_ERR(0, 159, __pyx_L1_error)
+        __PYX_ERR(0, 173, __pyx_L1_error)
       }
-      __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_current_path, __pyx_v_next_step); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 159, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_current_path, __pyx_v_next_step); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 173, __pyx_L1_error)
 
-      /* "src/simulator/cythonGraphFunctions.pyx":158
+      /* "src/simulator/cythonGraphFunctions.pyx":172
  *             extension_path = self.new_path(current_cell, current_path[cut_index])
  *             del current_path[cut_index : ]
  *             for next_step in extension_path:             # <<<<<<<<<<<<<<
@@ -4106,7 +4162,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/simulator/cythonGraphFunctions.pyx":153
+    /* "src/simulator/cythonGraphFunctions.pyx":167
  * 
  * 
  *         if len(current_path) > 2:             # <<<<<<<<<<<<<<
@@ -4116,7 +4172,7 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
     goto __pyx_L3;
   }
 
-  /* "src/simulator/cythonGraphFunctions.pyx":161
+  /* "src/simulator/cythonGraphFunctions.pyx":175
  *                 current_path.append(next_step)
  *         else:
  *             current_path = self.new_path(current_cell, target)             # <<<<<<<<<<<<<<
@@ -4124,26 +4180,26 @@ static PyObject *__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute
  * 
  */
   /*else*/ {
-    __pyx_t_2 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self->__pyx_vtab)->new_path(__pyx_v_self, __pyx_v_current_cell, __pyx_v_target, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self->__pyx_vtab)->new_path(__pyx_v_self, __pyx_v_current_cell, __pyx_v_target, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF_SET(__pyx_v_current_path, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
   }
   __pyx_L3:;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":162
+  /* "src/simulator/cythonGraphFunctions.pyx":176
  *         else:
  *             current_path = self.new_path(current_cell, target)
  *         return current_path             # <<<<<<<<<<<<<<
  * 
- * 
+ *     cpdef int latticeDistance(self,  start,goal):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_current_path);
   __pyx_r = __pyx_v_current_path;
   goto __pyx_L0;
 
-  /* "src/simulator/cythonGraphFunctions.pyx":149
+  /* "src/simulator/cythonGraphFunctions.pyx":163
  * 
  * 
  *     cpdef list recompute_path(self, list current_path,  current_cell,  target):             # <<<<<<<<<<<<<<
@@ -4207,17 +4263,17 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_5recompu
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_current_cell)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("recompute_path", 1, 3, 3, 1); __PYX_ERR(0, 149, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("recompute_path", 1, 3, 3, 1); __PYX_ERR(0, 163, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_target)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("recompute_path", 1, 3, 3, 2); __PYX_ERR(0, 149, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("recompute_path", 1, 3, 3, 2); __PYX_ERR(0, 163, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "recompute_path") < 0)) __PYX_ERR(0, 149, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "recompute_path") < 0)) __PYX_ERR(0, 163, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4232,13 +4288,13 @@ static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_5recompu
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("recompute_path", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 149, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("recompute_path", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 163, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.AStar.recompute_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_current_path), (&PyList_Type), 1, "current_path", 1))) __PYX_ERR(0, 149, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_current_path), (&PyList_Type), 1, "current_path", 1))) __PYX_ERR(0, 163, __pyx_L1_error)
   __pyx_r = __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_4recompute_path(((struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self), __pyx_v_current_path, __pyx_v_current_cell, __pyx_v_target);
 
   /* function exit code */
@@ -4259,7 +4315,7 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_4recompu
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("recompute_path", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute_path(__pyx_v_self, __pyx_v_current_path, __pyx_v_current_cell, __pyx_v_target, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute_path(__pyx_v_self, __pyx_v_current_path, __pyx_v_current_cell, __pyx_v_target, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4276,6 +4332,258 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_4recompu
   return __pyx_r;
 }
 
+/* "src/simulator/cythonGraphFunctions.pyx":178
+ *         return current_path
+ * 
+ *     cpdef int latticeDistance(self,  start,goal):             # <<<<<<<<<<<<<<
+ *         return c_lattice_distance(start.pos[0], start.pos[1], goal.pos[0], goal.pos[1])
+ * 
+ */
+
+static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7latticeDistance(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_latticeDistance(CYTHON_UNUSED struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_start, PyObject *__pyx_v_goal, int __pyx_skip_dispatch) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  int __pyx_t_8;
+  int __pyx_t_9;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("latticeDistance", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_latticeDistance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 178, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7latticeDistance)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        __pyx_t_5 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __pyx_t_5 = 1;
+          }
+        }
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_start, __pyx_v_goal};
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_start, __pyx_v_goal};
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+        } else
+        #endif
+        {
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 178, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          if (__pyx_t_4) {
+            __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+          }
+          __Pyx_INCREF(__pyx_v_start);
+          __Pyx_GIVEREF(__pyx_v_start);
+          PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_v_start);
+          __Pyx_INCREF(__pyx_v_goal);
+          __Pyx_GIVEREF(__pyx_v_goal);
+          PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_goal);
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 178, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "src/simulator/cythonGraphFunctions.pyx":179
+ * 
+ *     cpdef int latticeDistance(self,  start,goal):
+ *         return c_lattice_distance(start.pos[0], start.pos[1], goal.pos[0], goal.pos[1])             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_start, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_start, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_goal, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_f_3src_9simulator_20cythonGraphFunctions_c_lattice_distance(__pyx_t_5, __pyx_t_7, __pyx_t_8, __pyx_t_9);
+  goto __pyx_L0;
+
+  /* "src/simulator/cythonGraphFunctions.pyx":178
+ *         return current_path
+ * 
+ *     cpdef int latticeDistance(self,  start,goal):             # <<<<<<<<<<<<<<
+ *         return c_lattice_distance(start.pos[0], start.pos[1], goal.pos[0], goal.pos[1])
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_WriteUnraisable("src.simulator.cythonGraphFunctions.AStar.latticeDistance", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7latticeDistance(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7latticeDistance(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_start = 0;
+  PyObject *__pyx_v_goal = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("latticeDistance (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_start,&__pyx_n_s_goal,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_goal)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("latticeDistance", 1, 2, 2, 1); __PYX_ERR(0, 178, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "latticeDistance") < 0)) __PYX_ERR(0, 178, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_start = values[0];
+    __pyx_v_goal = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("latticeDistance", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 178, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.AStar.latticeDistance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_6latticeDistance(((struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self), __pyx_v_start, __pyx_v_goal);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_6latticeDistance(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v_start, PyObject *__pyx_v_goal) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("latticeDistance", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_latticeDistance(__pyx_v_self, __pyx_v_start, __pyx_v_goal, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("src.simulator.cythonGraphFunctions.AStar.latticeDistance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     cdef tuple state
@@ -4283,19 +4591,19 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_4recompu
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_6__reduce_cython__(((struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_8__reduce_cython__(((struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_6__reduce_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_8__reduce_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -4519,19 +4827,19 @@ static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_6__reduc
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_8__setstate_cython__(((struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_10__setstate_cython__(((struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_8__setstate_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_3src_9simulator_20cythonGraphFunctions_5AStar_10__setstate_cython__(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5573,8 +5881,9 @@ static void __pyx_tp_dealloc_3src_9simulator_20cythonGraphFunctions_AStar(PyObje
 static PyMethodDef __pyx_methods_3src_9simulator_20cythonGraphFunctions_AStar[] = {
   {"new_path", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_3new_path, METH_VARARGS|METH_KEYWORDS, 0},
   {"recompute_path", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_5recompute_path, METH_VARARGS|METH_KEYWORDS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_9__setstate_cython__, METH_O, 0},
+  {"latticeDistance", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_7latticeDistance, METH_VARARGS|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_9__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_3src_9simulator_20cythonGraphFunctions_5AStar_11__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -5715,12 +6024,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_heappush, __pyx_k_heappush, sizeof(__pyx_k_heappush), 0, 0, 1, 1},
   {&__pyx_n_s_heapq, __pyx_k_heapq, sizeof(__pyx_k_heapq), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_latticeDistance, __pyx_k_latticeDistance, sizeof(__pyx_k_latticeDistance), 0, 0, 1, 1},
   {&__pyx_n_s_lattice_size, __pyx_k_lattice_size, sizeof(__pyx_k_lattice_size), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_max_length, __pyx_k_max_length, sizeof(__pyx_k_max_length), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
   {&__pyx_n_s_new_path, __pyx_k_new_path, sizeof(__pyx_k_new_path), 0, 0, 1, 1},
+  {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
+  {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
   {&__pyx_n_s_pop, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
   {&__pyx_n_s_pos, __pyx_k_pos, sizeof(__pyx_k_pos), 0, 0, 1, 1},
@@ -5733,6 +6045,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_unpickle_AStar, __pyx_k_pyx_unpickle_AStar, sizeof(__pyx_k_pyx_unpickle_AStar), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_PriorityMinHeap, __pyx_k_pyx_unpickle_PriorityMinHeap, sizeof(__pyx_k_pyx_unpickle_PriorityMinHeap), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
+  {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_recompute_path, __pyx_k_recompute_path, sizeof(__pyx_k_recompute_path), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
@@ -5753,21 +6066,24 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 107, __pyx_L1_error)
   return 0;
+  __pyx_L1_error:;
+  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "src/simulator/cythonGraphFunctions.pyx":43
+  /* "src/simulator/cythonGraphFunctions.pyx":46
  *         self.pq = [] #List arranged as a min heap
  *         self.entry_finder = {} #mapping of items to enties
  *         self.REMOVED = (99999,99999) #placeholder for a removed task             # <<<<<<<<<<<<<<
  *         self.counter = 0 #Number of elements that are not removed in the heap
  * 
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_99999, __pyx_int_99999); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_99999, __pyx_int_99999); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -5867,30 +6183,31 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.remove_item = (PyObject *(*)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *, PyObject *))__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap_remove_item;
   __pyx_vtable_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.pop = (PyObject *(*)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *))__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap_pop;
   __pyx_vtable_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.is_empty = (PyObject *(*)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap *))__pyx_f_3src_9simulator_20cythonGraphFunctions_15PriorityMinHeap_is_empty;
-  if (PyType_Ready(&__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.tp_dictoffset && __pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.tp_dict, __pyx_vtabptr_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PriorityMinHeap, (PyObject *)&__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap.tp_dict, __pyx_vtabptr_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PriorityMinHeap, (PyObject *)&__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_ptype_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap = &__pyx_type_3src_9simulator_20cythonGraphFunctions_PriorityMinHeap;
   __pyx_vtabptr_3src_9simulator_20cythonGraphFunctions_AStar = &__pyx_vtable_3src_9simulator_20cythonGraphFunctions_AStar;
   __pyx_vtable_3src_9simulator_20cythonGraphFunctions_AStar.new_path = (PyObject *(*)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_new_path;
   __pyx_vtable_3src_9simulator_20cythonGraphFunctions_AStar.recompute_path = (PyObject *(*)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_recompute_path;
-  if (PyType_Ready(&__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_vtable_3src_9simulator_20cythonGraphFunctions_AStar.latticeDistance = (int (*)(struct __pyx_obj_3src_9simulator_20cythonGraphFunctions_AStar *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_3src_9simulator_20cythonGraphFunctions_5AStar_latticeDistance;
+  if (PyType_Ready(&__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_3src_9simulator_20cythonGraphFunctions_AStar.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar.tp_dictoffset && __pyx_type_3src_9simulator_20cythonGraphFunctions_AStar.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_3src_9simulator_20cythonGraphFunctions_AStar.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar.tp_dict, __pyx_vtabptr_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AStar, (PyObject *)&__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar.tp_dict, __pyx_vtabptr_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AStar, (PyObject *)&__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
   __pyx_ptype_3src_9simulator_20cythonGraphFunctions_AStar = &__pyx_type_3src_9simulator_20cythonGraphFunctions_AStar;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -6152,6 +6469,18 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
+  /* "src/simulator/cythonGraphFunctions.pyx":10
+ * cdef int LATTICE_SIZE
+ * 
+ * import numpy as np             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
   /* "(tree fragment)":1
  * def __pyx_unpickle_PriorityMinHeap(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
@@ -6226,6 +6555,34 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
+
+/* PyObjectGetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
+}
+#endif
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
 
 /* RaiseArgTupleInvalid */
 static void __Pyx_RaiseArgtupleInvalid(
@@ -6500,34 +6857,6 @@ invalid_keyword:
         function_name, key);
     #endif
     return 0;
-}
-
-/* PyObjectGetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_getattro))
-        return tp->tp_getattro(obj, attr_name);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_getattr))
-        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
-#endif
-    return PyObject_GetAttr(obj, attr_name);
-}
-#endif
-
-/* GetBuiltinName */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
 }
 
 /* PyDictVersioning */
@@ -7218,60 +7547,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
     return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
 }
 #endif
-
-/* pyfrozenset_new */
-static CYTHON_INLINE PyObject* __Pyx_PyFrozenSet_New(PyObject* it) {
-    if (it) {
-        PyObject* result;
-#if CYTHON_COMPILING_IN_PYPY
-        PyObject* args;
-        args = PyTuple_Pack(1, it);
-        if (unlikely(!args))
-            return NULL;
-        result = PyObject_Call((PyObject*)&PyFrozenSet_Type, args, NULL);
-        Py_DECREF(args);
-        return result;
-#else
-        if (PyFrozenSet_CheckExact(it)) {
-            Py_INCREF(it);
-            return it;
-        }
-        result = PyFrozenSet_New(it);
-        if (unlikely(!result))
-            return NULL;
-        if ((PY_VERSION_HEX >= 0x031000A1) || likely(PySet_GET_SIZE(result)))
-            return result;
-        Py_DECREF(result);
-#endif
-    }
-#if CYTHON_USE_TYPE_SLOTS
-    return PyFrozenSet_Type.tp_new(&PyFrozenSet_Type, __pyx_empty_tuple, NULL);
-#else
-    return PyObject_Call((PyObject*)&PyFrozenSet_Type, __pyx_empty_tuple, NULL);
-#endif
-}
-
-/* PySetContains */
-static int __Pyx_PySet_ContainsUnhashable(PyObject *set, PyObject *key) {
-    int result = -1;
-    if (PySet_Check(key) && PyErr_ExceptionMatches(PyExc_TypeError)) {
-        PyObject *tmpkey;
-        PyErr_Clear();
-        tmpkey = __Pyx_PyFrozenSet_New(key);
-        if (tmpkey != NULL) {
-            result = PySet_Contains(set, tmpkey);
-            Py_DECREF(tmpkey);
-        }
-    }
-    return result;
-}
-static CYTHON_INLINE int __Pyx_PySet_ContainsTF(PyObject* key, PyObject* set, int eq) {
-    int result = PySet_Contains(set, key);
-    if (unlikely(result < 0)) {
-        result = __Pyx_PySet_ContainsUnhashable(set, key);
-    }
-    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
-}
 
 /* PyIntBinop */
 #if !CYTHON_COMPILING_IN_PYPY

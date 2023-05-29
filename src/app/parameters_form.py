@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 from src.app.animation import Animation, VisualizationWindow
 from src.models.cities import SquareCity
 from src.app.visual_analysis import DistributionVisualization
-from src.app.params import LY_ENG_TO_SP, LY_SP_TO_ENG
+from src.app.params import LY_ENG_TO_SP, LY_SP_TO_ENG, SR_ENG_TO_SP, SR_SP_TO_ENG
 
 
 
@@ -150,6 +150,7 @@ class ParamsCreationForm(QWidget):
         for w in self.widgets:
             w.close()
         return super().closeEvent(cls)
+    
 class Page(QWidget):
     """Class that controls the logic of a Page through certain functions. Aspects related to the
     desing of the page are left for classes that inherint this one. """
@@ -203,6 +204,7 @@ class Page(QWidget):
                 raise TypeError("The widget inside widgets_dict has an unkwon type")
     def close_external_window(self):
         pass
+
 class CityCreationPage(Page):
     def __init__(self, parent=None, flags=QtCore.Qt.WindowFlags()):
         super().__init__(parent=parent, flags=flags)
@@ -250,10 +252,20 @@ class CityCreationPage(Page):
         aux_line_layout = QHBoxLayout()
         aux_line_layout.addWidget(show_st_layout_button)
         aux_line_layout.addWidget(self.choose_st_layout)
-        
         aux_layout.addRow(aux_line_layout)
+       
+        #drd  
+        # show_st_layout_button2 = QPushButton("Inteligencia de rutado")
+        # show_st_layout_button2.clicked.connect(self.show_stations)
+        # self.choose_st_layout2 = QComboBox()
+        # self.choose_st_layout2.addItems(SR_SP_TO_ENG.keys())
+        # aux_line_layout2 = QHBoxLayout()
+        # aux_line_layout2.addWidget(show_st_layout_button2)
+        # aux_line_layout2.addWidget(self.choose_st_layout2)
+        # aux_layout.addRow(aux_line_layout2)
+       
         stations_form.setLayout(aux_layout)
-
+ 
         # Add the stations_form to the layout
         layout.addWidget(stations_form)
         # Add a save image button to the layout
@@ -308,6 +320,7 @@ class CityCreationPage(Page):
     def closeEvent(self, cls):
         self.city_visualization.close()
         return super().closeEvent(cls)
+    
 class PhysicalUnitsPage(Page):
     def __init__(self, parent=None, flags=QtCore.Qt.WindowFlags()):
         super().__init__(parent=parent, flags=flags)
@@ -420,6 +433,7 @@ class DistributionPage(Page):
     def closeEvent(self, cls):
         self.distribution_visualization.close()
         return super().closeEvent(cls)
+    
 class GeneralPage(Page):
     def __init__(self, parent=None, flags=QtCore.Qt.WindowFlags()):
         super().__init__(parent=parent, flags=flags)
@@ -462,7 +476,6 @@ class GeneralPage(Page):
         if path:
             self.widgets_dict['PATH'].setText(path)
 
-
 class InstancesPage(Page):
     def __init__(self, parent=None, flags=QtCore.Qt.WindowFlags()):
         super().__init__(parent=parent, flags=flags)
@@ -475,6 +488,11 @@ class InstancesPage(Page):
         st_distributed = PageParam(QCheckBox, None, None, "ST_DISTRIBUTED", "Pequeñas estaciones en las calles")
         st_four = PageParam(QCheckBox, None, None, "ST_FOUR", "Cuatro estaciones medianas en las avenidas")
 
+        #drdj
+        sr_random = PageParam(QCheckBox, None, None, "SR_RANDOM", "El vehículo elige al azar la estación de recarga")
+        sr_distance = PageParam(QCheckBox, None, None, "SR_DISTANCE", "El vehículo elije la estación mas cercana según su ruta")
+        sr_time = PageParam(QCheckBox, None, None, "SR_TIME", "El vehículo elige la estación que en menos tiempo le recargue y permita llegar a su destino")
+ 
         # Create the class layout
         layout = QVBoxLayout()
 
@@ -483,7 +501,7 @@ class InstancesPage(Page):
         aux_layout = QFormLayout()
         aux_layout.setSizeConstraint(QLayout.SetMinimumSize)
         aux_layout.addRow(QLabel('Introduzca los valores de densidad de VE y densidad de tráfico.\nPara separar cada valor utilizar un espacio en blanco. \n Por ejemplo: 0.1 0.2 0.3 0.4 '))
-        self.add_page_param_to_layout([tf_density, ev_density], aux_layout)
+        self.add_page_param_to_layout([tf_density, ev_density,sr_distance], aux_layout)
         vehicles_form.setLayout(aux_layout)
 
         layout.addWidget(vehicles_form)
@@ -494,6 +512,10 @@ class InstancesPage(Page):
         aux_layout.setSizeConstraint(QLayout.SetMinimumSize)
         aux_layout.addRow(QLabel("Marque todas las disposiciones de estaciones que desee probar. Al menos una"))
         self.add_page_param_to_layout([st_central, st_distributed,st_four], aux_layout)
+
+        #drdj
+        #self.add_page_param_to_layout([sr_random, sr_distance, sr_time], aux_layout)
+
         stations_form.setLayout(aux_layout)
 
         layout.addWidget(stations_form)
